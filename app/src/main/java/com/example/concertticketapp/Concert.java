@@ -4,20 +4,28 @@ public class Concert {
     private String title;
     private String location;
     private String date;
+    private int imageResId;
 
-    public Concert() {}
-
-    public Concert(String title, String location, String date) {
+    public Concert(String title, String location, String date, int imageResId) {
         this.title = title;
         this.location = location;
         this.date = date;
+        this.imageResId = imageResId;
     }
 
-    public String getTitle() { return title; }
-    public String getLocation() { return location; }
-    public String getDate() { return date; }
+    public String getTitle() {
+        return title;
+    }
 
-    public void setTitle(String title) { this.title = title; }
-    public void setLocation(String location) { this.location = location; }
-    public void setDate(String date) { this.date = date; }
+    public String getLocation() {
+        return location;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public int getImageResId() {
+        return imageResId;
+    }
 }
