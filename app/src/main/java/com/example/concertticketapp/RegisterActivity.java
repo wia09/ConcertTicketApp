@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                         finish();
                     })
                     .addOnFailureListener(e ->
-                            Toast.makeText(this, "Hiba: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Sikertelen regisztráció!", Toast.LENGTH_SHORT).show()
                     );
         });
 

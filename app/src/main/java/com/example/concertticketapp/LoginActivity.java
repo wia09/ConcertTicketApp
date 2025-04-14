@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     })
                     .addOnFailureListener(e ->
-                            Toast.makeText(this, "Hiba: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Sikertelen bejelentkezés!", Toast.LENGTH_SHORT).show()
                     );
         });
 
