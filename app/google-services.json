@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1048434888501",
+    "project_id": "concertticketapp-c37b3",
+    "storage_bucket": "concertticketapp-c37b3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048434888501:android:01a5b08935bc5c2542c67c",
+        "android_client_info": {
+          "package_name": "com.example.concertticketapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdQEcKlk5bfYK7EXaelcNNoySVi6Btfto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
