@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertViewHolder> {
@@ -35,6 +35,8 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
         holder.location.setText(concert.getLocation());
         holder.date.setText(concert.getDate());
         holder.image.setImageResource(concert.getImageResId());
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in);
+        holder.itemView.startAnimation(animation);
     }
 
     @Override
