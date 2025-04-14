@@ -11,6 +11,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 import androidx.appcompat.widget.Toolbar;
+import android.widget.ImageButton;
 import android.view.View;
 import android.widget.Button;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Elérhető koncertek");
+        getSupportActionBar().setTitle("Koncertjegy App");
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ConcertAdapter(this, concertList);
         recyclerView.setAdapter(adapter);
+
+        ImageButton buttonCart = findViewById(R.id.buttonCart);
+        buttonCart.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override
