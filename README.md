@@ -20,3 +20,6 @@ Mobilalkalmazás-fejlesztés projektmunka – Online koncertjegy vásárlás alk
 - Android Studio
 - Firebase Firestore
 - Firebase Authentication
+
+## Fejlesztő
+- H47UZG
