@@ -1,31 +1,39 @@
 package com.example.concertticketapp;
 
-public class Concert {
-    private String title;
-    private String location;
-    private String date;
-    private int imageResId;
+import com.google.firebase.Timestamp;
 
-    public Concert(String title, String location, String date, int imageResId) {
-        this.title = title;
+public class Concert {
+    private String name;
+    private String location;
+    private Timestamp date;
+    private int price;
+    private int capacity;
+    private String image;
+
+    public Concert() {
+        // Firestore-hoz kötelező
+    }
+
+    public Concert(String name, String location, Timestamp date, int price, int capacity, String image) {
+        this.name = name;
         this.location = location;
         this.date = date;
-        this.imageResId = imageResId;
+        this.price = price;
+        this.capacity = capacity;
+        this.image = image;
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getName() { return name; }
+    public String getLocation() { return location; }
+    public Timestamp getDate() { return date; }
+    public int getPrice() { return price; }
+    public int getCapacity() { return capacity; }
+    public String getImage() { return image; }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public int getImageResId() {
-        return imageResId;
-    }
+    public void setName(String name) { this.name = name; }
+    public void setLocation(String location) { this.location = location; }
+    public void setDate(Timestamp date) { this.date = date; }
+    public void setPrice(int price) { this.price = price; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
+    public void setImage(String image) { this.image = image; }
 }

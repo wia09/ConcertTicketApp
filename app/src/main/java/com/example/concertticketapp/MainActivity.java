@@ -3,25 +3,28 @@ package com.example.concertticketapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.content.Intent;
-import android.os.Bundle;
-import java.util.ArrayList;
-import java.util.List;
-import androidx.appcompat.widget.Toolbar;
 import android.widget.ImageButton;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ConcertAdapter adapter;
     private List<Concert> concertList;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +39,34 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         concertList = new ArrayList<>();
-        concertList.add(new Concert("Imagine Dragons", "Papp László Sportaréna", "2025-05-10", R.drawable.imagine_dragons));
-        concertList.add(new Concert("Ed Sheeran", "Puskás Aréna", "2025-06-05", R.drawable.ed_sheeran));
-        concertList.add(new Concert("Billie Eilish", "Budapest Park", "2025-07-20", R.drawable.billie_eilish));
-        concertList.add(new Concert("Arctic Monkeys", "VOLT Fesztivál", "2025-08-15", R.drawable.arctic_monkeys));
-
         adapter = new ConcertAdapter(this, concertList);
         recyclerView.setAdapter(adapter);
+
+        db = FirebaseFirestore.getInstance();
+        loadConcertsFromFirestore();
 
         ImageButton buttonCart = findViewById(R.id.buttonCart);
         buttonCart.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
         });
+    }
 
+    private void loadConcertsFromFirestore() {
+        db.collection("concerts")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    concertList.clear();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        Concert concert = doc.toObject(Concert.class);
+                        concertList.add(concert);
+                    }
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Hiba történt a koncertek betöltésekor.", Toast.LENGTH_SHORT).show();
+                });
     }
 
     @Override
@@ -71,5 +88,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

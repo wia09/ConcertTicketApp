@@ -11,6 +11,8 @@ import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertViewHolder> {
     private List<Concert> concerts;
@@ -31,10 +33,17 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
     @Override
     public void onBindViewHolder(@NonNull ConcertViewHolder holder, int position) {
         Concert concert = concerts.get(position);
-        holder.title.setText(concert.getTitle());
+        holder.name.setText(concert.getName());
         holder.location.setText(concert.getLocation());
-        holder.date.setText(concert.getDate());
-        holder.image.setImageResource(concert.getImageResId());
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(concert.getDate().toDate());
+        holder.date.setText(formattedDate);
+
+        int imageResId = context.getResources().getIdentifier(
+                concert.getImage(), "drawable", context.getPackageName()
+        );
+        holder.image.setImageResource(imageResId);
+
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in);
         holder.itemView.startAnimation(animation);
     }
@@ -45,12 +54,12 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
     }
 
     public static class ConcertViewHolder extends RecyclerView.ViewHolder {
-        TextView title, location, date;
+        TextView name, location, date;
         ImageView image;
 
         public ConcertViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.textViewTitle);
+            name = itemView.findViewById(R.id.textViewTitle);     // maradhat így, ha az ID még "textViewTitle"
             location = itemView.findViewById(R.id.textViewLocation);
             date = itemView.findViewById(R.id.textViewDate);
             image = itemView.findViewById(R.id.imageViewConcert);
