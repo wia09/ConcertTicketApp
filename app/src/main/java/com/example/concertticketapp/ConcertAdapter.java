@@ -1,6 +1,7 @@
 package com.example.concertticketapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,18 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertViewHolder> {
+    public interface OnItemClickListener {
+        void onItemClick(Concert concert);
+    }
+
     private List<Concert> concerts;
     private Context context;
+    private OnItemClickListener listener;
 
-    public ConcertAdapter(Context context, List<Concert> concerts) {
+    public ConcertAdapter(Context context, List<Concert> concerts, OnItemClickListener listener) {
         this.context = context;
         this.concerts = concerts;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,19 +40,19 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
     @Override
     public void onBindViewHolder(@NonNull ConcertViewHolder holder, int position) {
         Concert concert = concerts.get(position);
-        holder.name.setText(concert.getName());
+        holder.title.setText(concert.getName());
         holder.location.setText(concert.getLocation());
-        String formattedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                .format(concert.getDate().toDate());
-        holder.date.setText(formattedDate);
-
+        holder.date.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(concert.getDate().toDate()));
         int imageResId = context.getResources().getIdentifier(
                 concert.getImage(), "drawable", context.getPackageName()
         );
         holder.image.setImageResource(imageResId);
 
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in);
-        holder.itemView.startAnimation(animation);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ConcertDetailActivity.class);
+            intent.putExtra("concertId", concert.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -54,12 +61,12 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
     }
 
     public static class ConcertViewHolder extends RecyclerView.ViewHolder {
-        TextView name, location, date;
+        TextView title, location, date;
         ImageView image;
 
         public ConcertViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.textViewTitle);     // maradhat így, ha az ID még "textViewTitle"
+            title = itemView.findViewById(R.id.textViewTitle);
             location = itemView.findViewById(R.id.textViewLocation);
             date = itemView.findViewById(R.id.textViewDate);
             image = itemView.findViewById(R.id.imageViewConcert);

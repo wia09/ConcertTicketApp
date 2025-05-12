@@ -39,7 +39,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         concertList = new ArrayList<>();
-        adapter = new ConcertAdapter(this, concertList);
+        adapter = new ConcertAdapter(this, concertList, concert -> {
+            Intent intent = new Intent(MainActivity.this, ConcertDetailActivity.class);
+            intent.putExtra("concert", concert);
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     concertList.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         Concert concert = doc.toObject(Concert.class);
+                        concert.setId(doc.getId());
                         concertList.add(concert);
                     }
                     adapter.notifyDataSetChanged();
