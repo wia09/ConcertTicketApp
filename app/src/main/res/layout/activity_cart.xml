@@ -56,6 +56,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/textTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Végösszeg: 0 Ft"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#111827"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonClearCart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/buttonClearCart"
         android:layout_width="wrap_content"

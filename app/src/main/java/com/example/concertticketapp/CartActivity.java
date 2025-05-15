@@ -18,6 +18,7 @@ public class CartActivity extends AppCompatActivity {
     private TextView textEmptyCart;
     private Button buttonContinueShopping;
     private Button buttonClearCart;
+    private TextView textTotalPrice;
 
 
     @Override
@@ -36,6 +37,7 @@ public class CartActivity extends AppCompatActivity {
         textEmptyCart = findViewById(R.id.textEmptyCart);
         buttonContinueShopping = findViewById(R.id.buttonContinueShopping);
         buttonClearCart = findViewById(R.id.buttonClearCart);
+        textTotalPrice = findViewById(R.id.textTotalPrice);
 
         CartManager cartManager = new CartManager(this);
         List<Concert> cartItems = cartManager.getCartItems();
@@ -45,11 +47,19 @@ public class CartActivity extends AppCompatActivity {
             textEmptyCart.setVisibility(View.VISIBLE);
             buttonContinueShopping.setVisibility(View.VISIBLE);
             buttonClearCart.setVisibility(View.GONE);
+            textTotalPrice.setVisibility(View.GONE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             textEmptyCart.setVisibility(View.GONE);
             buttonContinueShopping.setVisibility(View.GONE);
             buttonClearCart.setVisibility(View.VISIBLE);
+            textTotalPrice.setVisibility(View.VISIBLE);
+
+            int total = 0;
+            for (Concert concert : cartItems) {
+                total += concert.getPrice();
+            }
+            textTotalPrice.setText("Végösszeg: " + total + " Ft");
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             ConcertAdapter adapter = new ConcertAdapter(this, cartItems, new ConcertAdapter.OnItemClickListener() {

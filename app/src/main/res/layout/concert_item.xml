@@ -47,4 +47,17 @@
         app:layout_constraintTop_toBottomOf="@id/textViewLocation"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="12345 Ft"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewDate"
+        app:layout_constraintTop_toBottomOf="@id/textViewDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="2dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

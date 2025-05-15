@@ -43,6 +43,7 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
         holder.title.setText(concert.getName());
         holder.location.setText(concert.getLocation());
         holder.date.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(concert.getDate().toDate()));
+        holder.price.setText(concert.getPrice() + " Ft");
         int imageResId = context.getResources().getIdentifier(
                 concert.getImage(), "drawable", context.getPackageName()
         );
@@ -65,7 +66,7 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
     }
 
     public static class ConcertViewHolder extends RecyclerView.ViewHolder {
-        TextView title, location, date;
+        TextView title, location, date, price;
         ImageView image;
 
         public ConcertViewHolder(@NonNull View itemView) {
@@ -74,6 +75,7 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
             location = itemView.findViewById(R.id.textViewLocation);
             date = itemView.findViewById(R.id.textViewDate);
             image = itemView.findViewById(R.id.imageViewConcert);
+            price = itemView.findViewById(R.id.textViewPrice);
         }
     }
 }
