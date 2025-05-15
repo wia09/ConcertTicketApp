@@ -1,20 +1,22 @@
 package com.example.concertticketapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ConcertAdapter adapter;
     private List<Concert> concertList;
     private FirebaseFirestore db;
+    private Button buttonUpcoming, buttonBudapest, buttonSortDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,24 +57,56 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
         });
+
+        buttonUpcoming = findViewById(R.id.buttonUpcoming);
+        buttonBudapest = findViewById(R.id.buttonBudapest);
+        buttonSortDate = findViewById(R.id.buttonSortDate);
+
+        buttonUpcoming.setOnClickListener(v -> {
+            db.collection("concerts")
+                    .orderBy("date")
+                    .limit(3)
+                    .get()
+                    .addOnSuccessListener(this::updateConcertList)
+                    .addOnFailureListener(e -> showError());
+        });
+
+        buttonBudapest.setOnClickListener(v -> {
+            db.collection("concerts")
+                    .whereEqualTo("location", "Budapest Park")
+                    .get()
+                    .addOnSuccessListener(this::updateConcertList)
+                    .addOnFailureListener(e -> showError());
+        });
+
+        buttonSortDate.setOnClickListener(v -> {
+            db.collection("concerts")
+                    .orderBy("date")
+                    .get()
+                    .addOnSuccessListener(this::updateConcertList)
+                    .addOnFailureListener(e -> showError());
+        });
     }
 
     private void loadConcertsFromFirestore() {
         db.collection("concerts")
                 .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    concertList.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        Concert concert = doc.toObject(Concert.class);
-                        concert.setId(doc.getId());
-                        concertList.add(concert);
-                    }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Hiba történt a koncertek betöltésekor.", Toast.LENGTH_SHORT).show();
-                });
+                .addOnSuccessListener(this::updateConcertList)
+                .addOnFailureListener(e -> showError());
+    }
+
+    private void updateConcertList(QuerySnapshot queryDocumentSnapshots) {
+        concertList.clear();
+        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+            Concert concert = doc.toObject(Concert.class);
+            concert.setId(doc.getId());
+            concertList.add(concert);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void showError() {
+        Toast.makeText(this, "Hiba történt a lekérdezés során.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
