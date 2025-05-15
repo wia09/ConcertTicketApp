@@ -49,9 +49,13 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
         holder.image.setImageResource(imageResId);
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ConcertDetailActivity.class);
-            intent.putExtra("concertId", concert.getId());
-            context.startActivity(intent);
+            if (listener != null) {
+                listener.onItemClick(concert);
+            } else {
+                Intent intent = new Intent(context, ConcertDetailActivity.class);
+                intent.putExtra("concertId", concert.getId());
+                context.startActivity(intent);
+            }
         });
     }
 

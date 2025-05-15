@@ -8,8 +8,11 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class ConcertDetailActivity extends AppCompatActivity {
+    private Concert concert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +31,7 @@ public class ConcertDetailActivity extends AppCompatActivity {
                     .get()
                     .addOnSuccessListener(document -> {
                         if (document.exists()) {
-                            Concert concert = document.toObject(Concert.class);
+                            concert = document.toObject(Concert.class);
 
                             TextView title = findViewById(R.id.detailTitle);
                             TextView location = findViewById(R.id.detailLocation);
@@ -50,6 +53,19 @@ public class ConcertDetailActivity extends AppCompatActivity {
                         }
                     });
         }
+
+        Button buttonAddToCart = findViewById(R.id.buttonAddToCart);
+
+        buttonAddToCart.setOnClickListener(v -> {
+            if (concert != null) {
+                CartManager cartManager = new CartManager(ConcertDetailActivity.this);
+                cartManager.addToCart(concert);
+                Toast.makeText(this, "Hozzáadva a kosárhoz", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Hiba: koncert adat nem elérhető", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
