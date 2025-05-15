@@ -52,7 +52,7 @@
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/cartToolbar"
-        app:layout_constraintBottom_toTopOf="@id/buttonClearCart"
+        app:layout_constraintBottom_toTopOf="@id/buttonGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -65,24 +65,42 @@
         android:textSize="18sp"
         android:textColor="#111827"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@id/buttonClearCart"
+        app:layout_constraintBottom_toTopOf="@id/buttonGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/buttonClearCart"
+    <LinearLayout
+        android:id="@+id/buttonGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kosár ürítése"
-        android:backgroundTint="#EF4444"
-        android:textColor="#FFFFFF"
-        android:padding="12dp"
+        android:orientation="horizontal"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/recyclerViewCart"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewCart"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonClearCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kosár ürítése"
+            android:backgroundTint="#EF4444"
+            android:textColor="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginEnd="12dp"/>
+
+        <Button
+            android:id="@+id/buttonCheckout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fizetés"
+            android:backgroundTint="#10B981"
+            android:textColor="#FFFFFF"
+            android:padding="12dp"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

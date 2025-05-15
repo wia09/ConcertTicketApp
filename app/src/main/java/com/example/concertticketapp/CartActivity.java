@@ -38,6 +38,7 @@ public class CartActivity extends AppCompatActivity {
         buttonContinueShopping = findViewById(R.id.buttonContinueShopping);
         buttonClearCart = findViewById(R.id.buttonClearCart);
         textTotalPrice = findViewById(R.id.textTotalPrice);
+        Button buttonCheckout = findViewById(R.id.buttonCheckout);
 
         CartManager cartManager = new CartManager(this);
         List<Concert> cartItems = cartManager.getCartItems();
@@ -54,6 +55,14 @@ public class CartActivity extends AppCompatActivity {
             buttonContinueShopping.setVisibility(View.GONE);
             buttonClearCart.setVisibility(View.VISIBLE);
             textTotalPrice.setVisibility(View.VISIBLE);
+            findViewById(R.id.buttonGroup).setVisibility(View.VISIBLE);
+
+            buttonCheckout.setOnClickListener(v -> {
+                cartManager.clearCart();
+                Intent intent = new Intent(CartActivity.this, PaymentSuccessActivity.class);
+                startActivity(intent);
+                finish();
+            });
 
             int total = 0;
             for (Concert concert : cartItems) {
