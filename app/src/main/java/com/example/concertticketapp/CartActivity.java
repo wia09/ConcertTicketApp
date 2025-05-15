@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import java.util.List;
+import android.widget.Toast;
 
 public class CartActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView textEmptyCart;
     private Button buttonContinueShopping;
+    private Button buttonClearCart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class CartActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewCart);
         textEmptyCart = findViewById(R.id.textEmptyCart);
         buttonContinueShopping = findViewById(R.id.buttonContinueShopping);
+        buttonClearCart = findViewById(R.id.buttonClearCart);
 
         CartManager cartManager = new CartManager(this);
         List<Concert> cartItems = cartManager.getCartItems();
@@ -40,10 +44,12 @@ public class CartActivity extends AppCompatActivity {
             recyclerView.setVisibility(View.GONE);
             textEmptyCart.setVisibility(View.VISIBLE);
             buttonContinueShopping.setVisibility(View.VISIBLE);
+            buttonClearCart.setVisibility(View.GONE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             textEmptyCart.setVisibility(View.GONE);
             buttonContinueShopping.setVisibility(View.GONE);
+            buttonClearCart.setVisibility(View.VISIBLE);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             ConcertAdapter adapter = new ConcertAdapter(this, cartItems, new ConcertAdapter.OnItemClickListener() {
@@ -62,6 +68,13 @@ public class CartActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        buttonClearCart.setOnClickListener(v -> {
+            cartManager.clearCart();
+            recreate();
+            Toast.makeText(this, "A kosár ürítve lett", Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     @Override
